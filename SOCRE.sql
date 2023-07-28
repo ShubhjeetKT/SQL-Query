@@ -1,0 +1,393 @@
+UPDATE STAGING.SCOJ
+SET STAGING.SCOJ.TARGET = CAST(R.PAID_AMC_TARGET AS INTEGER)-- (SELECT CONCAT(CAST(PS_AMC_GT_250/PAID_AMC_TARGET*100 AS DECIMAL(10,2)),'%') FROM [RPT].[VW_DLSRV_PAID_AMC_GT_250] WHERE DEALER_CODE = 10001)
+FROM STAGING.SCOJ L
+LEFT OUTER JOIN [RPT].[VW_DLSRV_PAID_AMC_GT_250] R
+ON R.DEALER_CODE = L.DEALER_CODE AND R.MONTH_NAME = L.MONTH_NAME
+WHERE L.[Parameters in Detail] = 'Customer Retention | Paid + AMC (45)'
+
+UPDATE STAGING.SCOJ
+SET STAGING.SCOJ.SCORE = CAST(R.PAID_AMC_SCORE AS INTEGER)-- (SELECT CONCAT(CAST(PS_AMC_GT_250/PAID_AMC_TARGET*100 AS DECIMAL(10,2)),'%') FROM [RPT].[VW_DLSRV_PAID_AMC_GT_250] WHERE DEALER_CODE = 10001)
+FROM STAGING.SCOJ L
+LEFT OUTER JOIN [RPT].[VW_DLSRV_PAID_AMC_GT_250] R
+ON R.DEALER_CODE = L.DEALER_CODE AND R.MONTH_NAME = L.MONTH_NAME
+WHERE L.[Parameters in Detail] = 'Customer Retention | Paid + AMC (45)'
+
+UPDATE STAGING.SCOJ
+SET STAGING.SCOJ.ACTUAL = CAST(R.PS_AMC_GT_250 AS INTEGER)-- (SELECT CONCAT(CAST(PS_AMC_GT_250/PAID_AMC_TARGET*100 AS DECIMAL(10,2)),'%') FROM [RPT].[VW_DLSRV_PAID_AMC_GT_250] WHERE DEALER_CODE = 10001)
+FROM STAGING.SCOJ L
+LEFT OUTER JOIN [RPT].[VW_DLSRV_PAID_AMC_GT_250] R
+ON R.DEALER_CODE = L.DEALER_CODE AND R.MONTH_NAME = L.MONTH_NAME
+WHERE L.[Parameters in Detail] = 'Customer Retention | Paid + AMC (45)'
+
+UPDATE STAGING.SCOJ
+SET STAGING.SCOJ.ACHIEVEMENT = CONCAT(COALESCE(CAST(R.PS_AMC_GT_250/NULLIF(R.PAID_AMC_TARGET,0)*100 AS DECIMAL(10,2)),0),'%')
+FROM STAGING.SCOJ L
+LEFT OUTER JOIN [RPT].[VW_DLSRV_PAID_AMC_GT_250] R
+ON R.DEALER_CODE = L.DEALER_CODE AND R.MONTH_NAME = L.MONTH_NAME
+WHERE L.[Parameters in Detail] = 'Customer Retention | Paid + AMC (45)'
+
+--SELECT * FROM [RPT].[VW_DLSRV_PAID_AMC_GT_250] ORDER BY DEALER_CODE
+
+
+--------===================================------------
+--------***********************************------------
+--------***********************************------------
+--------===================================------------
+
+UPDATE STAGING.SCOJ
+SET STAGING.SCOJ.ACHIEVEMENT = CONCAT(COALESCE(CAST(R.SALES/NULLIF(R.JOYRIDE_SALES_TARGET,0)*100 AS DECIMAL(10)),0),'%')
+FROM STAGING.SCOJ L
+LEFT OUTER JOIN [RPT].[VW_DLSRV_VAS] R
+ON R.DEALER_CODE = L.DEALER_CODE AND R.MONTH_NAME = L.MONTH_NAME
+WHERE L.[Parameters in Detail] = 'VAS | Joyride Sales (30)'
+
+UPDATE STAGING.SCOJ
+SET STAGING.SCOJ.TARGET = (CAST(R.JOYRIDE_SALES_TARGET AS INTEGER))
+FROM STAGING.SCOJ L
+LEFT OUTER JOIN [RPT].[VW_DLSRV_VAS] R
+ON R.DEALER_CODE = L.DEALER_CODE AND R.MONTH_NAME = L.MONTH_NAME
+WHERE L.[Parameters in Detail] = 'VAS | Joyride Sales (30)'
+
+UPDATE STAGING.SCOJ
+SET STAGING.SCOJ.ACTUAL = R.SALES
+FROM STAGING.SCOJ L
+LEFT OUTER JOIN [RPT].[VW_DLSRV_VAS] R
+ON R.DEALER_CODE = L.DEALER_CODE AND R.MONTH_NAME = L.MONTH_NAME
+WHERE L.[Parameters in Detail] = 'VAS | Joyride Sales (30)'
+
+UPDATE STAGING.SCOJ
+SET STAGING.SCOJ.SCORE = R.JOYRIDE_SCORE
+FROM STAGING.SCOJ L
+LEFT OUTER JOIN [RPT].[VW_DLSRV_VAS] R
+ON R.DEALER_CODE = L.DEALER_CODE AND R.MONTH_NAME = L.MONTH_NAME
+WHERE L.[Parameters in Detail] = 'VAS | Joyride Sales (30)'
+SELECT * FROM [RPT].[VW_DLSRV_VAS]
+
+
+--------===================================------------
+--------***********************************------------
+--------***********************************------------
+--------===================================------------
+
+UPDATE STAGING.SCOJ
+SET STAGING.SCOJ.ACHIEVEMENT = CONCAT(COALESCE(CAST(R.FSC_DONE/NULLIF(R.FSC_TARGET,0)*100 AS DECIMAL(10)),0),'%')
+FROM STAGING.SCOJ L
+LEFT OUTER JOIN [RPT].[VW_DLSRV_VAS] R
+ON R.DEALER_CODE = L.DEALER_CODE AND R.MONTH_NAME = L.MONTH_NAME
+WHERE L.[Parameters in Detail] = 'VAS | FSC Redemption'
+
+UPDATE STAGING.SCOJ
+SET STAGING.SCOJ.TARGET = (CAST(R.FSC_TARGET AS INTEGER))
+FROM STAGING.SCOJ L
+LEFT OUTER JOIN [RPT].[VW_DLSRV_VAS] R
+ON R.DEALER_CODE = L.DEALER_CODE AND R.MONTH_NAME = L.MONTH_NAME
+WHERE L.[Parameters in Detail] = 'VAS | FSC Redemption'
+
+UPDATE STAGING.SCOJ
+SET STAGING.SCOJ.ACTUAL = R.FSC_DONE
+FROM STAGING.SCOJ L
+LEFT OUTER JOIN [RPT].[VW_DLSRV_VAS] R
+ON R.DEALER_CODE = L.DEALER_CODE AND R.MONTH_NAME = L.MONTH_NAME
+WHERE L.[Parameters in Detail] = 'VAS | FSC Redemption'
+
+--------===================================------------
+--------***********************************------------
+
+
+UPDATE STAGING.SCOJ
+SET STAGING.SCOJ.SCORE = (CAST(R.JOYRIDE_SALE_WITH_QUAL_FSC_SCORE AS INTEGER))
+FROM STAGING.SCOJ L
+LEFT OUTER JOIN [RPT].[VW_DLSRV_VAS] R
+ON R.DEALER_CODE = L.DEALER_CODE AND R.MONTH_NAME = L.MONTH_NAME
+WHERE L.[Parameters in Detail] = 'Joyride Sale Score with Qualifier FSC Redemption'
+
+/*--------===================================------------
+--------***********************************------------
+VAS | Usage of Washing Consumables (10)
+--------***********************************------------
+--------===================================------------*/
+UPDATE STAGING.SCOJ
+SET STAGING.SCOJ.ACHIEVEMENT = CONCAT(COALESCE(CAST(R.[Washing Consumables Actual]/NULLIF(R.[Washing Consumables Potential],0)*100 AS DECIMAL(10)),0),'%')
+FROM STAGING.SCOJ L
+LEFT OUTER JOIN [RPT].[VW_DLSRV_VAS] R
+ON R.DEALER_CODE = L.DEALER_CODE AND R.MONTH_NAME = L.MONTH_NAME
+WHERE L.[Parameters in Detail] = 'VAS | Usage of Washing Consumables (10)'
+
+UPDATE STAGING.SCOJ
+SET STAGING.SCOJ.TARGET = (CAST(R.[Washing Consumables Potential] AS DECIMAL(10,1)))
+FROM STAGING.SCOJ L
+LEFT OUTER JOIN [RPT].[VW_DLSRV_VAS] R
+ON R.DEALER_CODE = L.DEALER_CODE AND R.MONTH_NAME = L.MONTH_NAME
+WHERE L.[Parameters in Detail] = 'VAS | Usage of Washing Consumables (10)'
+
+UPDATE STAGING.SCOJ
+SET STAGING.SCOJ.ACTUAL = R.[Washing Consumables Actual]
+FROM STAGING.SCOJ L
+LEFT OUTER JOIN [RPT].[VW_DLSRV_VAS] R
+ON R.DEALER_CODE = L.DEALER_CODE AND R.MONTH_NAME = L.MONTH_NAME
+WHERE L.[Parameters in Detail] = 'VAS | Usage of Washing Consumables (10)'
+
+UPDATE STAGING.SCOJ
+SET STAGING.SCOJ.SCORE = R.WASHING_CONSUMABLES_ACHV_SCORE
+FROM STAGING.SCOJ L
+LEFT OUTER JOIN [RPT].[VW_DLSRV_VAS] R
+ON R.DEALER_CODE = L.DEALER_CODE AND R.MONTH_NAME = L.MONTH_NAME
+WHERE L.[Parameters in Detail] = 'VAS | Usage of Washing Consumables (10)'
+SELECT * FROM [RPT].[VW_DLSRV_VAS]
+
+/*--------===================================------------
+--------***********************************------------
+VAS | RSA Sales (15)
+--------***********************************------------
+--------===================================------------*/
+UPDATE STAGING.SCOJ
+SET STAGING.SCOJ.ACHIEVEMENT = CONCAT(COALESCE(CAST(R.RSA_ACTUAL/NULLIF(R.RSA_TARGETS,0)*100 AS DECIMAL(10)),0),'%')
+FROM STAGING.SCOJ L
+LEFT OUTER JOIN [RPT].[VW_DLSRV_VAS] R
+ON R.DEALER_CODE = L.DEALER_CODE AND R.MONTH_NAME = L.MONTH_NAME
+WHERE L.[Parameters in Detail] = 'VAS | RSA Sales (15)'
+
+UPDATE STAGING.SCOJ
+SET STAGING.SCOJ.TARGET = CAST(R.RSA_TARGETS AS INTEGER)
+FROM STAGING.SCOJ L
+LEFT OUTER JOIN [RPT].[VW_DLSRV_VAS] R
+ON R.DEALER_CODE = L.DEALER_CODE AND R.MONTH_NAME = L.MONTH_NAME
+WHERE L.[Parameters in Detail] = 'VAS | RSA Sales (15)'
+
+UPDATE STAGING.SCOJ
+SET STAGING.SCOJ.ACTUAL = CAST(R.RSA_ACTUAL AS INTEGER)
+FROM STAGING.SCOJ L
+LEFT OUTER JOIN [RPT].[VW_DLSRV_VAS] R
+ON R.DEALER_CODE = L.DEALER_CODE AND R.MONTH_NAME = L.MONTH_NAME
+WHERE L.[Parameters in Detail] = 'VAS | RSA Sales (15)'
+
+UPDATE STAGING.SCOJ
+SET STAGING.SCOJ.SCORE = R.RSA_SALES_SCORE
+FROM STAGING.SCOJ L
+LEFT OUTER JOIN [RPT].[VW_DLSRV_VAS] R
+ON R.DEALER_CODE = L.DEALER_CODE AND R.MONTH_NAME = L.MONTH_NAME
+WHERE L.[Parameters in Detail] = 'VAS | RSA Sales (15)'
+SELECT * FROM [RPT].[VW_DLSRV_VAS]
+
+
+/*--------===================================------------
+--------***********************************------------
+VAS | Chain Lubes (15)
+--------***********************************------------
+--------===================================------------*/
+UPDATE STAGING.SCOJ
+SET STAGING.SCOJ.ACHIEVEMENT = CONCAT(COALESCE(CAST(R.CL_CC_ACTUAL/NULLIF(R.CL_CC_TARGET,0)*100 AS DECIMAL(10)),0),'%')
+FROM STAGING.SCOJ L
+LEFT OUTER JOIN [RPT].[VW_DLSRV_VAS] R
+ON R.DEALER_CODE = L.DEALER_CODE AND R.MONTH_NAME = L.MONTH_NAME
+WHERE L.[Parameters in Detail] = 'VAS | Chain Lubes (15)'
+
+UPDATE STAGING.SCOJ
+SET STAGING.SCOJ.TARGET = CAST(R.CL_CC_TARGET AS INTEGER)
+FROM STAGING.SCOJ L
+LEFT OUTER JOIN [RPT].[VW_DLSRV_VAS] R
+ON R.DEALER_CODE = L.DEALER_CODE AND R.MONTH_NAME = L.MONTH_NAME
+WHERE L.[Parameters in Detail] = 'VAS | Chain Lubes (15)'
+
+UPDATE STAGING.SCOJ
+SET STAGING.SCOJ.ACTUAL = CAST(R.CL_CC_ACTUAL AS INTEGER)
+FROM STAGING.SCOJ L
+LEFT OUTER JOIN [RPT].[VW_DLSRV_VAS] R
+ON R.DEALER_CODE = L.DEALER_CODE AND R.MONTH_NAME = L.MONTH_NAME
+WHERE L.[Parameters in Detail] = 'VAS | Chain Lubes (15)'
+
+UPDATE STAGING.SCOJ
+SET STAGING.SCOJ.SCORE = R.[CL+CC_SCORE]
+FROM STAGING.SCOJ L
+LEFT OUTER JOIN [RPT].[VW_DLSRV_VAS] R
+ON R.DEALER_CODE = L.DEALER_CODE AND R.MONTH_NAME = L.MONTH_NAME
+WHERE L.[Parameters in Detail] = 'VAS | Chain Lubes (15)'
+SELECT * FROM [RPT].[VW_DLSRV_VAS]
+
+
+/*--------===================================------------
+--------***********************************------------
+VAS | Paint Protection Treatment (5)
+--------***********************************------------
+--------===================================------------*/
+UPDATE STAGING.SCOJ
+SET STAGING.SCOJ.ACHIEVEMENT = CONCAT(COALESCE(CAST(R.PPT_ACTUAL/NULLIF(R.PPT_TARGET,0)*100 AS DECIMAL(10)),0),'%')
+FROM STAGING.SCOJ L
+LEFT OUTER JOIN [RPT].[VW_DLSRV_VAS] R
+ON R.DEALER_CODE = L.DEALER_CODE AND R.MONTH_NAME = L.MONTH_NAME
+WHERE L.[Parameters in Detail] = 'VAS | Paint Protection Treatment (5)'
+
+UPDATE STAGING.SCOJ
+SET STAGING.SCOJ.TARGET = CAST(R.PPT_TARGET AS INTEGER)
+FROM STAGING.SCOJ L
+LEFT OUTER JOIN [RPT].[VW_DLSRV_VAS] R
+ON R.DEALER_CODE = L.DEALER_CODE AND R.MONTH_NAME = L.MONTH_NAME
+WHERE L.[Parameters in Detail] = 'VAS | Paint Protection Treatment (5)'
+
+UPDATE STAGING.SCOJ
+SET STAGING.SCOJ.ACTUAL = CAST(R.PPT_ACTUAL AS INTEGER)
+FROM STAGING.SCOJ L
+LEFT OUTER JOIN [RPT].[VW_DLSRV_VAS] R
+ON R.DEALER_CODE = L.DEALER_CODE AND R.MONTH_NAME = L.MONTH_NAME
+WHERE L.[Parameters in Detail] = 'VAS | Paint Protection Treatment (5)'
+
+UPDATE STAGING.SCOJ
+SET STAGING.SCOJ.SCORE = R.PPT_SCORE
+FROM STAGING.SCOJ L
+LEFT OUTER JOIN [RPT].[VW_DLSRV_VAS] R
+ON R.DEALER_CODE = L.DEALER_CODE AND R.MONTH_NAME = L.MONTH_NAME
+WHERE L.[Parameters in Detail] = 'VAS | Paint Protection Treatment (5)'
+SELECT * FROM [RPT].[VW_DLSRV_VAS]
+
+
+
+/*--------===================================------------
+--------***********************************------------
+Complaint Management | CPTV / Complaint Reduction (40)
+--------***********************************------------
+--------===================================------------*/
+
+
+UPDATE STAGING.SCOJ
+SET STAGING.SCOJ.ACTUAL = CAST(R.CPTV AS DECIMAL(5,2))
+FROM STAGING.SCOJ L
+LEFT OUTER JOIN [RPT].[VW_DLSRV_COMPLAINTS_SCORE] R
+ON R.DEALER_CODE = L.DEALER_CODE AND R.MONTH_NAME = L.MONTH_NAME
+WHERE L.[Parameters in Detail] = 'Complaint Management | CPTV / Complaint Reduction (40)'
+
+UPDATE STAGING.SCOJ
+SET STAGING.SCOJ.SCORE = R.COMPLAINTS_SCORE
+FROM STAGING.SCOJ L
+LEFT OUTER JOIN [RPT].[VW_DLSRV_COMPLAINTS_SCORE] R
+ON R.DEALER_CODE = L.DEALER_CODE AND R.MONTH_NAME = L.MONTH_NAME
+WHERE L.[Parameters in Detail] = 'Complaint Management | CPTV / Complaint Reduction (40)'
+
+/*--------===================================------------
+--------***********************************------------
+Complaint Management | Post Service Feedback (10)
+--------***********************************------------
+--------===================================------------*/
+UPDATE STAGING.SCOJ
+SET STAGING.SCOJ.ACHIEVEMENT = CONCAT(COALESCE(CAST(CAST(R.CALLS_CONNECTED_UNIQUE AS FLOAT)/NULLIF(CAST(R.TOTAL_DATA AS FLOAT),0)*100 AS DECIMAL(10)),0),'%')
+FROM STAGING.SCOJ L
+LEFT OUTER JOIN [RPT].[VW_DLSRV_WECONNECT_PSF] R
+ON R.DEALER_CODE = L.DEALER_CODE AND R.MONTH_NAME = L.MONTH_NAME
+WHERE L.[Parameters in Detail] = 'Complaint Management | Post Service Feedback (10)'
+
+UPDATE STAGING.SCOJ
+SET STAGING.SCOJ.TARGET = CAST(R.TOTAL_DATA AS INTEGER)
+FROM STAGING.SCOJ L
+LEFT OUTER JOIN [RPT].[VW_DLSRV_WECONNECT_PSF] R
+ON R.DEALER_CODE = L.DEALER_CODE AND R.MONTH_NAME = L.MONTH_NAME
+WHERE L.[Parameters in Detail] = 'Complaint Management | Post Service Feedback (10)'
+
+UPDATE STAGING.SCOJ
+SET STAGING.SCOJ.ACTUAL = CAST(R.CALLS_CONNECTED_UNIQUE AS INTEGER)
+FROM STAGING.SCOJ L
+LEFT OUTER JOIN [RPT].[VW_DLSRV_WECONNECT_PSF] R
+ON R.DEALER_CODE = L.DEALER_CODE AND R.MONTH_NAME = L.MONTH_NAME
+WHERE L.[Parameters in Detail] = 'Complaint Management | Post Service Feedback (10)'
+
+UPDATE STAGING.SCOJ
+SET STAGING.SCOJ.SCORE = R.PSF_SCORE
+FROM STAGING.SCOJ L
+LEFT OUTER JOIN [RPT].[VW_DLSRV_WECONNECT_PSF] R
+ON R.DEALER_CODE = L.DEALER_CODE AND R.MONTH_NAME = L.MONTH_NAME
+WHERE L.[Parameters in Detail] = 'Complaint Management | Post Service Feedback (10)'
+
+
+/*--------===================================------------
+--------***********************************------------
+Complaint Management | Premium & Scooter Complaints (10)
+--------***********************************------------
+--------===================================------------*/
+
+
+UPDATE STAGING.SCOJ
+SET STAGING.SCOJ.TARGET = 0
+FROM STAGING.SCOJ L
+LEFT OUTER JOIN [RPT].[VW_DLSRV_PRM_N_SCTR_CMPLTS_SCORE] R
+ON R.DEALER_CODE = L.DEALER_CODE AND R.MONTH_NAME = L.MONTH_NAME
+WHERE L.[Parameters in Detail] = 'Complaint Management | Premium & Scooter Complaints (10)'
+
+UPDATE STAGING.SCOJ
+SET STAGING.SCOJ.ACTUAL = CAST(R.TTL_COMPLAINTS AS INTEGER)
+FROM STAGING.SCOJ L
+LEFT OUTER JOIN [RPT].[VW_DLSRV_PRM_N_SCTR_CMPLTS_SCORE] R
+ON R.DEALER_CODE = L.DEALER_CODE AND R.MONTH_NAME = L.MONTH_NAME
+WHERE L.[Parameters in Detail] = 'Complaint Management | Premium & Scooter Complaints (10)'
+
+UPDATE STAGING.SCOJ
+SET STAGING.SCOJ.SCORE = R.PRM_SCTR_CMPLT_SCORE
+FROM STAGING.SCOJ L
+LEFT OUTER JOIN [RPT].[VW_DLSRV_PRM_N_SCTR_CMPLTS_SCORE] R
+ON R.DEALER_CODE = L.DEALER_CODE AND R.MONTH_NAME = L.MONTH_NAME
+WHERE L.[Parameters in Detail] = 'Complaint Management | Premium & Scooter Complaints (10)'
+
+
+------********************  PDI   ***********-----------
+UPDATE STAGING.SCOJ
+SET STAGING.SCOJ.ACTUAL = R.PDI_FIFO_VEH
+FROM STAGING.SCOJ L
+LEFT OUTER JOIN [RPT].[FACT_SERVICE_PDI_FIFO] R
+ON R.DEALER_CODE = L.DEALER_CODE AND R.MONTH_NAME = L.MONTH_NAME
+WHERE L.[Parameters in Detail] = 'Ownership Experience | PDI Facility and FIFO Availability (20)'
+
+UPDATE STAGING.SCOJ
+SET STAGING.SCOJ.SCORE = R.PDI_FIFO_VEH_SCORE
+FROM STAGING.SCOJ L
+LEFT OUTER JOIN [RPT].[FACT_SERVICE_PDI_FIFO] R
+ON R.DEALER_CODE = L.DEALER_CODE AND R.MONTH_NAME = L.MONTH_NAME
+WHERE L.[Parameters in Detail] = 'Ownership Experience | PDI Facility and FIFO Availability (20)'
+
+UPDATE STAGING.SCOJ
+SET STAGING.SCOJ.SCORE = R.SCORE
+FROM STAGING.SCOJ L
+LEFT OUTER JOIN (SELECT DEALER_CODE,MONTH_NAME, SUM(CAST(SCORE AS FLOAT)) SCORE FROM STAGING.SCOJ
+WHERE [Parameters in Detail] IN ('Complaint Management | CPTV / Complaint Reduction (40)',
+'Complaint Management | Post Service Feedback (10)',
+'Complaint Management | Premium & Scooter Complaints (10)')
+AND MONTH_NAME = '2023 Jun'
+GROUP BY DEALER_CODE,MONTH_NAME) R
+ON R.DEALER_CODE = L.DEALER_CODE AND R.MONTH_NAME = L.MONTH_NAME
+WHERE L.[Parameters in Detail] = 'Complaint Management (60)'
+
+
+
+SELECT * FROM [RPT].[FACT_SERVICE_PDI_FIFO]
+
+
+
+
+/*--------===================================------------
+--------***********************************------------
+Process | Same Day Delivery (20)
+--------***********************************------------
+--------===================================------------*/
+UPDATE STAGING.SCOJ
+SET STAGING.SCOJ.ACHIEVEMENT = CONCAT(COALESCE(CAST(R.JC_CLOSED/NULLIF(R.JC_OPENED,0)*100 AS DECIMAL(10)),0),'%')
+FROM STAGING.SCOJ L
+LEFT OUTER JOIN [RPT].[VW_DLSRV_SDD] R
+ON R.DEALER_CODE = L.DEALER_CODE AND R.MONTH_NAME = L.MONTH_NAME
+WHERE L.[Parameters in Detail] = 'Process | Same Day Delivery (20)'
+
+UPDATE STAGING.SCOJ
+SET STAGING.SCOJ.TARGET = CAST(R.JC_OPENED AS INTEGER)
+FROM STAGING.SCOJ L
+LEFT OUTER JOIN [RPT].[VW_DLSRV_SDD] R
+ON R.DEALER_CODE = L.DEALER_CODE AND R.MONTH_NAME = L.MONTH_NAME
+WHERE L.[Parameters in Detail] = 'Process | Same Day Delivery (20)'
+
+UPDATE STAGING.SCOJ
+SET STAGING.SCOJ.ACTUAL = CAST(R.JC_CLOSED AS INTEGER)
+FROM STAGING.SCOJ L
+LEFT OUTER JOIN [RPT].[VW_DLSRV_SDD] R
+ON R.DEALER_CODE = L.DEALER_CODE AND R.MONTH_NAME = L.MONTH_NAME
+WHERE L.[Parameters in Detail] = 'Process | Same Day Delivery (20)'
+
+UPDATE STAGING.SCOJ
+SET STAGING.SCOJ.SCORE = R.SSD_SCORE
+FROM STAGING.SCOJ L
+LEFT OUTER JOIN [RPT].[VW_DLSRV_SDD] R
+ON R.DEALER_CODE = L.DEALER_CODE AND R.MONTH_NAME = L.MONTH_NAME
+WHERE L.[Parameters in Detail] = 'Process | Same Day Delivery (20)'
