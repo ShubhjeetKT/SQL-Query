@@ -1,3 +1,3 @@
 # SQL-Query
-## DDML 
+## DDML  
  
